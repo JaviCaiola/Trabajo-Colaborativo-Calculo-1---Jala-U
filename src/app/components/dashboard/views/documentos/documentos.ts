@@ -39,6 +39,12 @@ export class Documentos implements AfterViewInit {
             format: new GeoJSON(),
           }),
         }),
+        new VectorLayer({
+          source: new VectorSource({
+            url: '/Argentina.json',
+            format: new GeoJSON(),
+          }),
+        }),
       ],
       overlays: [this.tooltipOverlay],
       view: new View({
@@ -54,8 +60,8 @@ export class Documentos implements AfterViewInit {
 
       if (feature) {
         const properties = feature.getProperties();
-        const name = properties['name'];
-        const region = properties['region'];
+        const name = properties['name'] || properties['nombre'];
+        const region = properties['region'] || properties['iso_id'];
         const pop2024 = properties['pop_2024'];
 
         this.tooltipElement.nativeElement.innerHTML = `
