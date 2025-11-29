@@ -16,10 +16,9 @@ export class DashboardNavigation {
 
   private readonly menuOptions: MenuOption[] = [
     { id: 'inicio', label: 'Inicio', icon: 'bi-house' },
+    { id: 'documentos', label: 'Mapa', icon: 'bi-file-text' },
     { id: 'integrantes', label: 'Integrantes', icon: 'bi-people' },
-    { id: 'historial', label: 'Historial', icon: 'bi-clock-history' },
-    { id: 'marcadores', label: 'Marcadores', icon: 'bi-star' },
-    { id: 'documentos', label: 'Documentos', icon: 'bi-file-text' },
+
     { id: 'example-d3', label: 'Configuración', icon: 'bi-gear' }
   ];
 
