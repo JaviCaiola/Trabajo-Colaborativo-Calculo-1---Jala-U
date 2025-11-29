@@ -14,8 +14,6 @@ import { ExampleD3Component } from '../../../example-d3/example-d3.component';
   imports: [
       Inicio,
       Integrantes,
-      Historial,
-      Marcadores,
       Documentos,
       ExampleD3Component
     ],
