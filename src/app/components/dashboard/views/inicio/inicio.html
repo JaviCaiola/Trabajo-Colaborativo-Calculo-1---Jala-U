@@ -1,0 +1,54 @@
+    <div class="p-6 bg-gray-100 min-h-screen flex flex-col lg:flex-row gap-6 items-start justify-center">
+
+      <!-- Contenedor Principal del Mapa -->
+      <div class="w-full lg:w-3/4 bg-white p-4 rounded-xl shadow-2xl border border-gray-200">
+        <h1 class="text-2xl font-extrabold text-gray-800 mb-4 border-b pb-2">
+          Mapa Coropleta de Población (2024)
+        </h1>
+        <!-- El SVG donde D3 dibujará el mapa -->
+        <svg #mapContainer class="w-full aspect-[1.5/1]"></svg>
+      </div>
+
+      <!-- Panel de Información y Controles -->
+      <div class="w-full lg:w-1/4 bg-white p-6 rounded-xl shadow-2xl border border-blue-200 sticky top-6">
+        <h2 class="text-xl font-bold text-blue-600 mb-4 border-b pb-2">
+          Información del Estado
+        </h2>
+
+        @if (selectedState()) {
+          <!-- Card de Estado Seleccionado -->
+          <div class="space-y-3 p-4 bg-blue-50 rounded-lg border border-blue-300">
+            <p class="text-3xl font-black text-blue-800">{{ selectedState()!.name }}</p>
+            <p class="text-sm text-gray-600">Código Postal: <span class="font-mono text-gray-800">{{ selectedState()!.postal }}</span></p>
+            <div class="pt-2">
+              <span class="block text-sm font-semibold text-gray-500">Población Estimada (2024):</span>
+              <span class="text-4xl font-extrabold text-blue-900 leading-none">
+                {{ formatPopulation(selectedState()!.pop_2024) }}
+              </span>
+            </div>
+            <!-- Leyenda de Color -->
+            <div class="mt-4 pt-3 border-t border-blue-100">
+                <span class="block text-xs font-medium text-gray-500">Intensidad de Color:</span>
+                <div class="w-full h-2 rounded-full" [style.background]="colorScale()(selectedState()!.pop_2024)"></div>
+            </div>
+          </div>
+        } @else {
+          <!-- Mensaje de Instrucción -->
+          <div class="text-center p-6 bg-gray-50 rounded-lg">
+            <svg class="w-8 h-8 mx-auto text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.55 4.55a2 2 0 010 2.82l-4.55 4.55a2 2 0 01-2.82 0l-4.55-4.55a2 2 0 010-2.82l4.55-4.55a2 2 0 012.82 0zM12 4h.01"></path></svg>
+            <p class="mt-2 text-sm text-gray-500">Haz clic en un estado para ver los datos de población.</p>
+          </div>
+        }
+
+        <!-- Leyenda General -->
+        <div class="mt-8">
+            <h3 class="text-md font-semibold text-gray-700 mb-3">Escala de Densidad de Población</h3>
+            <div class="flex justify-between text-xs font-semibold text-gray-600">
+                <span>Baja ({{ formatPopulation(minPopulation()) }})</span>
+                <span>Alta ({{ formatPopulation(maxPopulation()) }})</span>
+            </div>
+            <div [style.background]="gradientStyle()" class="w-full h-4 rounded-lg mt-1 shadow-inner"></div>
+            <p class="text-xs text-gray-400 mt-2">La intensidad del color está basada en la población de 2024.</p>
+        </div>
+      </div>
+    </div>

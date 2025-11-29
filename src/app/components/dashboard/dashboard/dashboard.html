@@ -1,0 +1,74 @@
+    <div class="gradient-bg h-screen w-screen overflow-hidden flex text-slate-800">
+
+      <!-- Sidebar -->
+      <aside class="w-64 glass-sidebar border-r border-white/10 flex flex-col text-white transition-all duration-300 hidden md:flex">
+
+        <!-- Header -->
+        <div class="h-16 flex items-center px-6 border-b border-white/10">
+          <i class="bi bi-diagram-3 text-2xl text-lime-400 mr-2"></i>
+          <span class="text-lg font-bold tracking-wide">Dashboard</span>
+        </div>
+
+        <!-- Action Button -->
+        <div class="p-4">
+          <button
+            (click)="handleAction()"
+            class="w-full bg-lime-600 hover:bg-lime-500 text-white py-3 px-4 rounded-xl shadow-lg flex items-center justify-center gap-2 transition-all group">
+            <i class="bi bi-plus-circle text-xl"></i>
+            <span class="font-bold">Nueva Acción</span>
+          </button>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="flex-1 overflow-y-auto py-2 px-3 space-y-1">
+          @for (option of navService.options(); track option.id) {
+            <a
+              (click)="navService.selectOption(option.id)"
+              [class.bg-white/10]="navService.isSelected(option.id)"
+              [class.text-lime-400]="navService.isSelected(option.id)"
+              [class.text-gray-300]="!navService.isSelected(option.id)"
+              class="flex items-center px-4 py-3 rounded-lg cursor-pointer transition-colors hover:bg-white/5 hover:text-white group">
+              <i [class]="option.icon + ' text-lg mr-3'"></i>
+              <span [class.font-medium]="navService.isSelected(option.id)">{{ option.label }}</span>
+            </a>
+          }
+        </nav>
+
+        <!-- Progress Bar -->
+        <div class="p-4 bg-black/20 mt-auto">
+          <div class="flex justify-between text-xs text-gray-300 mb-1">
+            <span>NaN</span>
+            <span>0 / 0</span>
+          </div>
+          <div class="w-full bg-gray-700 rounded-full h-1.5">
+            <div class="bg-lime-500 h-1.5 rounded-full transition-all duration-300" style="width: 75%"></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 flex flex-col min-w-0 glass-panel md:m-2 md:rounded-2xl shadow-2xl overflow-hidden">
+        <div class="h-full overflow-y-auto">
+          @switch (navService.selectedOption()) {
+            @case ('inicio') {
+              <app-inicio />
+            }
+            @case ('integrantes') {
+              <app-integrantes />
+            }
+            @case ('historial') {
+              <app-historial />
+            }
+            @case ('marcadores') {
+              <app-marcadores />
+            }
+            @case ('documentos') {
+              <app-documentos />
+            }
+            @case ('example-d3') {
+              <app-example-d3 />
+            }
+          }
+        </div>
+      </main>
+    </div>

@@ -1,0 +1,15 @@
+    /* Estilo base de los estados (path) */
+    .state {
+      stroke: #fff;
+      stroke-width: 1px;
+      transition: fill 0.2s; /* Transición suave del color */
+      cursor: pointer;
+    }
+
+    /* Estilo al pasar el mouse */
+    .state:hover {
+      opacity: 0.8;
+      stroke: #3b82f6; /* Borde azul al hacer hover */
+      stroke-width: 2px;
+      fill-opacity: 0.9;
+    }
