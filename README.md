@@ -1,4 +1,8 @@
 # ProyectoColaborativoCálculo1
+
+<img width="1268" height="518" alt="image" src="https://github.com/user-attachments/assets/4a575657-1288-46e7-b076-1f6be002ccbd" />
+
+
 ## Descripción general
 Esta es una aplicación web en **Angular 21** que visualiza datos geográficos utilizando **OpenLayers**. Muestra dos mapas interactivos lado a lado:
 - **Mapa de EE.UU.** (estados y provincias) cargado desde `ne_110m_admin_1_states_provinces_lakes.json`.
@@ -55,6 +59,10 @@ src/
 
 ---
 ## Funcionalidades de los mapas
+
+<img width="1270" height="663" alt="image" src="https://github.com/user-attachments/assets/f3395d22-7db2-47ec-a0af-c9933012e695" />
+
+
 ### Resaltado al pasar el cursor
 - Implementado con un listener `pointermove` de **OpenLayers**.
 - La característica (*feature*) sobre la que se pasa el cursor recibe un `Style` con relleno amarillo (`rgba(255,255,0,0.6)`).
