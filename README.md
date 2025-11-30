@@ -1,59 +1,118 @@
 # ProyectoColaborativoCalculo1
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.1.
+## Overview
+This is an **Angular 21** web application that visualizes geographic data using **OpenLayers**. It displays two interactive maps side‑by‑side:
+- **USA map** (states and provinces) loaded from `ne_110m_admin_1_states_provinces_lakes.json`.
+- **Argentina map** loaded from `Argentina.json`.
 
-## Development server
+Both maps share the same tooltip component and support:
+- **Hover highlighting** – the polygon under the cursor is filled with a semi‑transparent yellow.
+- **Click selection** – clicking a region stores its name, country, identifier (ISO code or region), and population (`pop_2024`).
+- **Population aggregation** – the total population of all selected regions is shown in the UI.
 
-To start a local development server, run:
+The project also includes a clean CSS‑based design (no Tailwind) and a simple routing setup that loads the `Documentos` view as the default page.
 
+---
+
+## Prerequisites
+- **Node.js** (>= 20.x) and **npm** (>= 10.x)
+- **Angular CLI** (`npm i -g @angular/cli@21`)
+- A modern browser (Chrome, Firefox, Edge) with JavaScript enabled.
+
+---
+
+## Installation
+```bash
+# Clone the repository (if you haven't already)
+git clone <repo‑url>
+cd proyecto-colaborativo-calculo1
+
+# Install dependencies
+npm install
+```
+
+---
+
+## Development Server
 ```bash
 ng serve
 ```
+Open your browser and navigate to `http://localhost:4200/`. The app will reload automatically when you modify source files.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+## Project Structure (relevant parts)
+```
+src/
+├─ app/
+│  ├─ components/
+│  │  └─ dashboard/
+│  │     └─ views/
+│  │        └─ documentos/
+│  │           ├─ documentos.ts   # Map logic, hover, click, NgZone handling
+│  │           ├─ documentos.html # UI for map, tooltip, selected regions list
+│  │           └─ documentos.css  # Styling for map container & tooltip
+│  └─ app-routing.module.ts       # Routes – default path loads DocumentosComponent
+└─ assets/
+   ├─ ne_110m_admin_1_states_provinces_lakes.json
+   └─ Argentina.json
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+## Map Features
+### Hover Highlight
+- Implemented with an `OpenLayers` `pointermove` listener.
+- The hovered feature receives a `Style` with a yellow fill (`rgba(255,255,0,0.6)`).
+- The style is cleared when the cursor leaves the feature.
+
+### Tooltip
+- An `Overlay` displays the region name, identifier (region or ISO code), and population.
+- Works for both USA and Argentina layers.
+
+### Click Selection & Population Sum
+- Click events are wrapped in `NgZone.run()` so Angular change detection updates the UI.
+- Selected region data is stored in `selectedRegions` (array of objects).
+- `totalPopulation` is a running sum displayed in the view.
+
+---
+
+## Styling
+The UI uses **vanilla CSS** defined in `documentos.css`. Key classes:
+- `.map` – full‑width/height container for the OpenLayers map.
+- `.tooltip` – positioned overlay with a white background, rounded corners, and a subtle shadow.
+- `.selected-list` – simple list styling for the selected regions panel.
+
+Feel free to extend the design with your own color palette or add a dark‑mode toggle.
+
+---
+
+## Routing
+`app-routing.module.ts` defines a single route:
+```typescript
+const routes: Routes = [
+  { path: '', component: DocumentosComponent },
+  // add more routes here as the project grows
+];
 ```
+The default route loads the map view directly.
 
-## Building
+---
 
-To build the project run:
-
+## Building for Production
 ```bash
-ng build
+ng build --configuration production
 ```
+The compiled files are placed in the `dist/` folder and can be served by any static web server.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## Further Development
+- Add additional GeoJSON layers (e.g., Europe, Asia).
+- Implement a side panel with charts that react to the selected regions.
+- Introduce a service (`PopulationService`) to centralise aggregation logic and make it reusable across components.
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+---
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## License
+This project is provided under the MIT License.
