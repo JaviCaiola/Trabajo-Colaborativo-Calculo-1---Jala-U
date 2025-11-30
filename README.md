@@ -1,47 +1,42 @@
-# ProyectoColaborativoCalculo1
+# ProyectoColaborativoCálculo1
+## Descripción general
+Esta es una aplicación web en **Angular 21** que visualiza datos geográficos utilizando **OpenLayers**. Muestra dos mapas interactivos lado a lado:
+- **Mapa de EE.UU.** (estados y provincias) cargado desde `ne_110m_admin_1_states_provinces_lakes.json`.
+- **Mapa de Argentina** cargado desde `Argentina.json`.
 
-## Overview
-This is an **Angular 21** web application that visualizes geographic data using **OpenLayers**. It displays two interactive maps side‑by‑side:
-- **USA map** (states and provinces) loaded from `ne_110m_admin_1_states_provinces_lakes.json`.
-- **Argentina map** loaded from `Argentina.json`.
+Ambos mapas comparten el mismo componente de *tooltip* y admiten:
+- **Resaltado al pasar el cursor**: el polígono bajo el cursor se rellena con un amarillo semitransparente.
+- **Selección por clic**: al hacer clic en una región, se guarda su nombre, país, identificador (código ISO o región) y población (`pop_2024`).
+- **Agregación de población**: la población total de todas las regiones seleccionadas se muestra en la interfaz.
 
-Both maps share the same tooltip component and support:
-- **Hover highlighting** – the polygon under the cursor is filled with a semi‑transparent yellow.
-- **Click selection** – clicking a region stores its name, country, identifier (ISO code or region), and population (`pop_2024`).
-- **Population aggregation** – the total population of all selected regions is shown in the UI.
-
-The project also includes a clean CSS‑based design (no Tailwind) and a simple routing setup that loads the `Documentos` view as the default page.
-
----
-
-## Prerequisites
-- **Node.js** (>= 20.x) and **npm** (>= 10.x)
-- **Angular CLI** (`npm i -g @angular/cli@21`)
-- A modern browser (Chrome, Firefox, Edge) with JavaScript enabled.
+El proyecto también incluye un diseño limpio basado en **CSS** (sin Tailwind) y una configuración simple de enrutamiento que carga la vista `Documentos` como página predeterminada.
 
 ---
+## Requisitos previos
+- **Node.js** (>= 20.x) y **npm** (>= 10.x).
+- **Angular CLI** (`npm i -g @angular/cli@21`).
+- Un navegador moderno (Chrome, Firefox, Edge) con JavaScript habilitado.
 
-## Installation
+---
+## Instalación
 ```bash
-# Clone the repository (if you haven't already)
-git clone <repo‑url>
+# Clonar el repositorio (si aún no lo has hecho)
+git clone <url-del-repositorio>
 cd proyecto-colaborativo-calculo1
 
-# Install dependencies
+# Instalar dependencias
 npm install
 ```
 
 ---
-
-## Development Server
+## Servidor de desarrollo
 ```bash
 ng serve
 ```
-Open your browser and navigate to `http://localhost:4200/`. The app will reload automatically when you modify source files.
+Abre tu navegador y navega a `http://localhost:4200/`. La aplicación se recargará automáticamente al modificar los archivos fuente.
 
 ---
-
-## Project Structure (relevant parts)
+## Estructura del proyecto (partes relevantes)
 ```
 src/
 ├─ app/
@@ -49,70 +44,64 @@ src/
 │  │  └─ dashboard/
 │  │     └─ views/
 │  │        └─ documentos/
-│  │           ├─ documentos.ts   # Map logic, hover, click, NgZone handling
-│  │           ├─ documentos.html # UI for map, tooltip, selected regions list
-│  │           └─ documentos.css  # Styling for map container & tooltip
-│  └─ app-routing.module.ts       # Routes – default path loads DocumentosComponent
+│  │           ├─ documentos.ts   # Lógica de los mapas, resaltado, clics, manejo de NgZone
+│  │           ├─ documentos.html # Interfaz para el mapa, tooltip y lista de regiones seleccionadas
+│  │           └─ documentos.css  # Estilos para el contenedor del mapa y el tooltip
+│  └─ app-routing.module.ts       # Rutas: la ruta predeterminada carga DocumentosComponent
 └─ assets/
    ├─ ne_110m_admin_1_states_provinces_lakes.json
    └─ Argentina.json
 ```
 
 ---
-
-## Map Features
-### Hover Highlight
-- Implemented with an `OpenLayers` `pointermove` listener.
-- The hovered feature receives a `Style` with a yellow fill (`rgba(255,255,0,0.6)`).
-- The style is cleared when the cursor leaves the feature.
+## Funcionalidades de los mapas
+### Resaltado al pasar el cursor
+- Implementado con un listener `pointermove` de **OpenLayers**.
+- La característica (*feature*) sobre la que se pasa el cursor recibe un `Style` con relleno amarillo (`rgba(255,255,0,0.6)`).
+- El estilo se elimina cuando el cursor sale de la característica.
 
 ### Tooltip
-- An `Overlay` displays the region name, identifier (region or ISO code), and population.
-- Works for both USA and Argentina layers.
+- Un `Overlay` muestra el nombre de la región, identificador (región o código ISO) y población.
+- Funciona para las capas de EE.UU. y Argentina.
 
-### Click Selection & Population Sum
-- Click events are wrapped in `NgZone.run()` so Angular change detection updates the UI.
-- Selected region data is stored in `selectedRegions` (array of objects).
-- `totalPopulation` is a running sum displayed in the view.
-
----
-
-## Styling
-The UI uses **vanilla CSS** defined in `documentos.css`. Key classes:
-- `.map` – full‑width/height container for the OpenLayers map.
-- `.tooltip` – positioned overlay with a white background, rounded corners, and a subtle shadow.
-- `.selected-list` – simple list styling for the selected regions panel.
-
-Feel free to extend the design with your own color palette or add a dark‑mode toggle.
+### Selección por clic y suma de población
+- Los eventos de clic se envuelven en `NgZone.run()` para que la detección de cambios de Angular actualice la interfaz.
+- Los datos de la región seleccionada se guardan en `selectedRegions` (arreglo de objetos).
+- `totalPopulation` es una suma acumulativa que se muestra en la vista.
 
 ---
+## Estilos
+La interfaz utiliza **CSS puro** definido en `documentos.css`. Clases clave:
+- `.map`: contenedor de ancho/alto completo para el mapa de OpenLayers.
+- `.tooltip`: capa superpuesta con fondo blanco, bordes redondeados y sombra sutil.
+- `.selected-list`: estilo simple para el panel de regiones seleccionadas.
 
-## Routing
-`app-routing.module.ts` defines a single route:
+Si lo deseas, puedes extender el diseño con tu propia paleta de colores o agregar un modo oscuro.
+
+---
+## Enrutamiento
+`app-routing.module.ts` define una única ruta:
 ```typescript
 const routes: Routes = [
   { path: '', component: DocumentosComponent },
-  // add more routes here as the project grows
+  // Agrega más rutas aquí a medida que el proyecto crezca
 ];
 ```
-The default route loads the map view directly.
+La ruta predeterminada carga directamente la vista del mapa.
 
 ---
-
-## Building for Production
+## Compilación para producción
 ```bash
 ng build --configuration production
 ```
-The compiled files are placed in the `dist/` folder and can be served by any static web server.
+Los archivos compilados se guardan en la carpeta `dist/` y pueden ser servidos por cualquier servidor web estático.
 
 ---
-
-## Further Development
-- Add additional GeoJSON layers (e.g., Europe, Asia).
-- Implement a side panel with charts that react to the selected regions.
-- Introduce a service (`PopulationService`) to centralise aggregation logic and make it reusable across components.
+## Desarrollo futuro
+- Agregar capas GeoJSON adicionales (ej: Europa, Asia).
+- Implementar un panel lateral con gráficos que reaccionen a las regiones seleccionadas.
+- Introducir un servicio (`PopulationService`) para centralizar la lógica de agregación y hacerlo reutilizable en otros componentes.
 
 ---
-
-## License
-This project is provided under the MIT License.
+## Licencia
+Este proyecto se proporciona bajo la **Licencia MIT**.
